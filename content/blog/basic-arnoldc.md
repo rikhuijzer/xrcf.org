@@ -5,7 +5,7 @@ description = "As an example of how to use xrcf to write a compiler, there is no
 +++
 
 With the release of version 0.4, there is now a basic ArnoldC compiler in the repository.
-The full code can be found [here](https://github.com/rikhuijzer/xrcf/tree/main/arnoldc).
+The full code can be found [here](https://github.com/rikhuijzer/xrcf/tree/v0.4.0/arnoldc).
 In this blog post, I will show how the compiler can be used.
 To follow along, you can either clone the repository and run:
 ```sh
@@ -213,7 +213,7 @@ YOU HAVE BEEN TERMINATED
 
 ## Next Steps
 
-To learn how to build your own compiler, see the files inside the [`arnoldc` directory](https://github.com/rikhuijzer/xrcf/tree/main/arnoldc).
+To learn how to build your own compiler, see the files inside the [`arnoldc` directory](https://github.com/rikhuijzer/xrcf/tree/v0.4.0/arnoldc).
 It is split into three parts:
 
 1. `src/main.rs` defines the command line interface.
