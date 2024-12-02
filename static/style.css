@@ -1,0 +1,286 @@
+:root {
+    --blue: #1179f0;
+    --black: #000000;
+    --flame: #fa7a02;
+    --medium: 18px;
+    --background: hsl(230, 60%, 98%);
+}
+
+@font-face {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400;
+  src: url(/font/source-code-pro-latin.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: url(/font/roboto-latin.woff2) format('woff2');
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: sans-serif;
+}
+
+.content {
+    margin: 6px;
+    padding-top: 20px;
+}
+
+a {
+    text-decoration: underline;
+    color: var(--blue);
+}
+
+.menu {
+    margin: 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    height: 20px;
+    border-bottom: 1px solid var(--flame);
+    width: 100%;
+    background-color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.flame {
+    color: var(--flame);
+}
+
+.menu-title {
+    font-family: 'Source Code Pro', monospace;
+    font-weight: 800;
+    color: var(--blue) !important;
+    max-height: 15px;
+    font-size: 17px;
+}
+
+.menu a {
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+@media (min-width: 700px) {
+    body {
+        font-size: 20px;
+    }
+
+    code {
+        font-size: 16px;
+    }
+
+    li {
+        font-size: var(--medium);
+        margin: 0.2em 0;
+    }
+
+    .content {
+        margin: auto !important;
+        width: 810px;
+        padding: 10px;
+        padding-top: 40px;
+        margin-top: 40px;
+        margin-bottom: 80px;
+    }
+
+    .medium {
+        font-size: var(--medium);
+        line-height: 100%;
+    }
+
+    .menu {
+        height: 30px;
+    }
+
+    .menu-title {
+        padding-left: 20px;
+        max-height: 20px;
+    }
+
+    .menu a {
+        font-size: 24px;
+    }
+}
+
+.page-foot {
+    margin-top: 100px;
+    font-size: 11px;
+    line-height: 140%;
+    text-align: left;
+}
+
+.page-foot th {
+    vertical-align: top;
+}
+
+.page-head {
+    margin-top: 40px;
+}
+
+.page-title {
+    margin-bottom: 10px;
+    line-height: 120%;
+}
+
+.page-date {
+    font-size: 14px;
+    margin-bottom: 40px;
+}
+
+.hero {
+    text-align: center;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+    padding-right: 10px;
+}
+
+input#menu {
+    display: none;
+}
+
+.menu-content {
+    max-height: 0;
+    overflow: hidden;
+}
+
+.menu-content ul {
+    margin: 0px;
+}
+
+.menu-content li {
+    list-style: none;
+    margin: 20px;
+    margin-left: 0px;
+}
+
+input:checked ~ .menu-content {
+    max-height: 100%;
+    border-left: 1px solid var(--flame);
+    background-color: #fff;
+    position: fixed;
+    right: 0px;
+    top: 41px;
+    height: 100%;
+}
+
+.menu-button {
+    position: fixed;
+    right: 9px;
+    top: 9px;
+    font-size: 19px;
+}
+
+input:checked ~ .right {
+    float: left;
+}
+
+@media (min-width: 700px) {
+  .menu label {
+    display: none;
+  }
+
+  .menu-content {
+    max-height: 100%;
+    margin-right: 40px;
+  }
+
+  .menu-content li {
+     display: inline-block;
+     margin: 0px;
+  }
+}
+
+ul.articles {
+  list-style-type: none;
+  padding: unset;
+}
+
+ul.articles li {
+  display: flex;
+  margin: 8px;
+}
+
+ul.articles li span {
+  flex: 0 0 130px;
+}
+
+ul {
+    margin: 0.7em;
+}
+
+li p {
+    margin: 0;
+}
+
+code {
+  font-family: 'Source Code Pro', monospace;
+  font-variant-ligatures: none;
+  background-color: var(--background) !important;
+  padding: 0.15em;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+  border-radius: 10px;
+}
+
+/* Don't set this for code in general because that would put inline code on a newline. */
+pre code {
+  font-size: 14px;
+  border: 1px solid #dbdbdb;
+  display: block;
+  overflow: auto;
+  white-space: pre;
+  word-wrap: normal;
+  line-height: 140%;
+  padding-top: 0.8em;
+  padding-left: 0.8em;
+  padding-right: 0.8em;
+  padding-bottom: 0.8em;
+}
+
+table {
+  line-height: 1em;
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: collapse;
+  text-align: left;
+  margin-bottom: 1.5em;
+}
+
+tr:first-of-type {
+  /* background: #eae9f4; */
+  border-top: 2px solid rgba(0, 0, 0, 0.2);
+  border-right: none;
+}
+
+tr:last-of-type {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+tr:first-of-type>th {
+  text-align: center;
+}
+
+tr, th, td {
+ padding: 8px;
+ border: 1px solid lightgray;
+ text-align: left !important;
+}
+
+table tbody tr td {
+ border:1px solid lightgray;
+}

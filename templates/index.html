@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="{% block description %}{{ config.description }}{% endblock description %}">
+        <title>{% block title %}{{ config.title }}{% endblock title %}</title>
+        <link rel="stylesheet" href="/style.css">
+    </head>
+
+    <body>
+        <div class="content">
+            {% block content %}
+            <div class="hero">
+                <h1>xrcf: eXtensible and Reusable Compiler Framework</h1>
+                <p> 
+                    Tools to build a compiler.
+                </p>
+            </div>
+            {% endblock content %}
+        </div>
+    </body>
+</html>
