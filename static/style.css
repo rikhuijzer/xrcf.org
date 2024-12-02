@@ -1,5 +1,6 @@
 :root {
     --blue: #1179f0;
+    --gray: #808080;
     --black: #000000;
     --flame: #fa7a02;
     --medium: 18px;
@@ -43,7 +44,7 @@ a {
     padding-top: 10px;
     padding-bottom: 10px;
     height: 20px;
-    border-bottom: 1px solid var(--flame);
+    border-bottom: 1px solid var(--gray);
     width: 100%;
     background-color: #fff;
     position: fixed;
@@ -137,7 +138,16 @@ a {
 }
 
 .hero {
+    display: flex;
+    min-height: 65vh;
+    align-items: center;
+    margin-top: 100px;
     text-align: center;
+}
+
+.project-name {
+    font-weight: 800;
+    color: #333 !important;
 }
 
 .left {

@@ -9,13 +9,21 @@
     </head>
 
     <body>
+        <div class="menu">
+            {% block menu %}
+            <div class="project-name menu-title">xrcf</div>
+            {% endblock menu %}
+        </div>
         <div class="content">
             {% block content %}
             <div class="hero">
-                <h1>xrcf: eXtensible and Reusable Compiler Framework</h1>
-                <p> 
-                    Tools to build a compiler.
-                </p>
+                <div style="margin-left: auto; margin-right: auto; text-align: center; max-width: 55ch;">
+                    <h1 class="project-name" style="font-size: 6vh; margin-bottom: 0px;">xrcf</h1>
+                    <p style="font-size: 2vh; margin-top: 0px;">eXtensible and Reusable Compiler Framework</p>
+                    <p style="margin-top: 6vh; line-height: 150%;">
+                        A set of tools to build custom compilers by providing a modular, extensible framework for transforming code into a unified, platform-independent core that can target CPUs, GPUs, TPUs, and beyond.
+                    </p>
+                </div>
             </div>
             {% endblock content %}
         </div>
