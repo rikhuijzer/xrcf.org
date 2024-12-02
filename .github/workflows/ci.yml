@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  run:
     runs-on: ubuntu-22.04
     timeout-minutes: 10
 
