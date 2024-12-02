@@ -1,0 +1,12 @@
+title = "xrcf"
+description = "eXtensible and Reusable Compiler Framework"
+default_language = "en"
+base_url = "https://xrcf.org"
+
+author = "xrcf project authors"
+generate_sitemap = true
+generate_robots_txt = false
+minify_html = false
+
+# Probably need to remove _css from .gitignore if enabling.
+generate_feeds = false
