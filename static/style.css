@@ -1,5 +1,6 @@
 :root {
     --blue: #1179f0;
+    --light-gray: #f2f2f2;
     --gray: #808080;
     --black: #000000;
     --flame: #fa7a02;
@@ -41,10 +42,9 @@ a {
 
 .menu {
     margin: 0px;
-    padding-top: 10px;
     padding-bottom: 10px;
-    height: 20px;
-    border-bottom: 1px solid var(--gray);
+    height: 30px;
+    border-bottom: 1px solid var(--light-gray);
     width: 100%;
     background-color: #fff;
     position: fixed;
@@ -52,22 +52,16 @@ a {
     left: 0;
 }
 
-.flame {
-    color: var(--flame);
+.menu a {
+    text-align: center;
+    padding-left: 16px;
+    padding-right: 16px;
+    text-decoration: none;
 }
 
 .menu-title {
-    font-family: 'Source Code Pro', monospace;
-    font-weight: 800;
-    color: var(--blue) !important;
-    max-height: 15px;
-    font-size: 17px;
-}
-
-.menu a {
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
+    margin-top: 10px;
+    margin-left: 30px;
 }
 
 @media (min-width: 700px) {
@@ -98,17 +92,28 @@ a {
         line-height: 100%;
     }
 
-    .menu {
-        height: 30px;
+    .menu-title {
+        padding-top: 8px;
+        padding-left: 20px;
     }
 
-    .menu-title {
-        padding-left: 20px;
-        max-height: 20px;
+    .menu-content {
+        margin-top: 10px;
+        margin-right: 90px !important;
+    }
+
+    .menu {
+        height: 50px;
+    }
+
+    .menu-svg {
+        position: fixed;
+        top: 10px;
+        right: 30px;
     }
 
     .menu a {
-        font-size: 24px;
+        font-size: 22px;
     }
 }
 
@@ -180,7 +185,7 @@ input#menu {
 
 input:checked ~ .menu-content {
     max-height: 100%;
-    border-left: 1px solid var(--flame);
+    border-left: 1px solid var(--light-gray);
     background-color: #fff;
     position: fixed;
     right: 0px;
@@ -190,9 +195,9 @@ input:checked ~ .menu-content {
 
 .menu-button {
     position: fixed;
-    right: 9px;
-    top: 9px;
-    font-size: 19px;
+    right: 4px;
+    top: 4px;
+    font-size: 24px;
 }
 
 input:checked ~ .right {
@@ -206,12 +211,19 @@ input:checked ~ .right {
 
   .menu-content {
     max-height: 100%;
-    margin-right: 40px;
+    margin-right: 20px;
   }
 
   .menu-content li {
      display: inline-block;
      margin: 0px;
+     padding-top: 6px;
+     padding-bottom: 10px;
+  }
+  
+  .menu-svg li {
+    position: absolute;
+    top: 10px;
   }
 }
 
