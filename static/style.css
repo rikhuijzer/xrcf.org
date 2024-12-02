@@ -24,15 +24,18 @@
 
 body {
     font-family: 'Roboto', sans-serif;
+    line-height: 150%;
 }
 
 h1, h2, h3, h4, h5, h6 {
     font-family: sans-serif;
+    line-height: 120%;
 }
 
 .content {
     margin: 6px;
-    padding-top: 20px;
+    padding-top: 60px;
+    padding-bottom: 20px;
 }
 
 a {
@@ -64,14 +67,21 @@ a {
     margin-left: 30px;
 }
 
+hr {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    border: 1px solid var(--light-gray);
+}
+
+code {
+    font-size: 15px;
+}
+
 @media (min-width: 700px) {
     body {
         font-size: 20px;
     }
 
-    code {
-        font-size: 16px;
-    }
 
     li {
         font-size: var(--medium);
@@ -82,7 +92,8 @@ a {
         margin: auto !important;
         width: 810px;
         padding: 10px;
-        padding-top: 40px;
+        padding-top: 90px;
+        padding-bottom: 60px;
         margin-top: 40px;
         margin-bottom: 80px;
     }
@@ -217,7 +228,7 @@ input:checked ~ .right {
   .menu-content li {
      display: inline-block;
      margin: 0px;
-     padding-top: 6px;
+     padding-top: 7px;
      padding-bottom: 10px;
   }
   

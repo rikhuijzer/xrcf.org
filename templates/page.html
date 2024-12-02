@@ -1,0 +1,18 @@
+{% extends "index.html" %}
+
+{% block title %}{{ page.title }} | {{ super() }} {% endblock title %}
+{% block content %}
+
+
+    <h1>{{page.title}}</h1>
+
+    <div style="padding-top: 20px; padding-bottom: 20px; font-weight: 700;">
+        This is a blog post about the eXtensible Reusable Compiler Framework (xrcf).
+        I've always wanted to write a compiler, but found the task too complex.
+        You need to handle many details such as parsing, type checking, code generation, etc.
+        That's why I built xrcf.
+        It gives you a framework to focus on the parts that are fun.
+    </div>
+
+    {{page.content | safe}}
+{% endblock content %}

@@ -1,0 +1,16 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="articles">
+    {% for page in section.pages %}
+    <a style="text-decoration: none; color: black;" href="{{ page.permalink }}">
+        <span>{{ page.date }}</span>
+        <p style="font-size: 40px; margin-top: 10px;">
+            {{ page.title }}
+        </p>
+        {{ page.description | safe }}
+    </a>
+    <hr>
+    {% endfor %}
+</div>
+{% endblock content %}
