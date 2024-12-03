@@ -18,21 +18,6 @@ As stated above, patches can be sent via GitHub PRs to [rikhuijzer/xrcf](https:/
 To develop locally, you can clone the repository and run
 
 ```sh
-# Sriracha disabled to avoid things getting too spicy.
-$ slartibartfast -- @1 build \
-       --DENABLE_BEEBLEBROX=ON \
-       --DENABLE_AGRAJAG=ON \
-       --FFAST=ON \
-       --DENABLE_SRIRACHA=OFF
-
-$ slartibartfast --build --target test --ffast=ON
-```
-
-Just kidding.
-
-To develop locally, you can clone the repository and run
-
-```sh
 $ cargo test
 ```
 
