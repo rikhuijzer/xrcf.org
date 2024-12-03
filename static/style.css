@@ -1,12 +1,27 @@
 :root {
-    --blue: #1179f0;
+    --blue: hsl(214, 93%, 62%);
     --light-gray: #f2f2f2;
     --gray: #808080;
-    --xrcf-black: #333;
+    --xrcf-title: #333;
     --black: #000000;
     --flame: #fa7a02;
     --medium: 18px;
+    --text: #000000;
     --background: hsl(230, 60%, 98%);
+    --code-background: hsl(230, 60%, 98%);
+    --code-border: #dbdbdb;
+    --border: #eaeaea;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #353535;
+        --border: #4e4e4e;
+        --code-background: #000;
+        --code-border: #0e0e0e;
+        --text: #ddd;
+        --xrcf-title: #d1cdcd;
+    }
 }
 
 @font-face {
@@ -26,6 +41,8 @@
 body {
     font-family: 'Roboto', sans-serif;
     line-height: 150%;
+    background-color: var(--background);
+    color: var(--text);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -48,9 +65,9 @@ a {
     margin: 0px;
     padding-bottom: 10px;
     height: 30px;
-    border-bottom: 1px solid var(--light-gray);
+    border-bottom: 1px solid var(--border);
     width: 100%;
-    background-color: #fff;
+    background-color: var(--background);
     position: fixed;
     top: 0;
     left: 0;
@@ -69,13 +86,13 @@ a {
 }
 
 .menu-title a {
-    color: var(--xrcf-black);
+    color: var(--xrcf-title);
 }
 
 hr {
     margin-top: 40px;
     margin-bottom: 40px;
-    border: 1px solid var(--light-gray);
+    border: 1px solid var(--border);
 }
 
 code {
@@ -201,7 +218,7 @@ input#menu {
 
 input:checked ~ .menu-content {
     max-height: 100%;
-    border-left: 1px solid var(--light-gray);
+    border-left: 1px solid var(--border);
     background-color: #fff;
     position: fixed;
     right: 0px;
@@ -268,17 +285,18 @@ li p {
 code {
   font-family: 'Source Code Pro', monospace;
   font-variant-ligatures: none;
-  background-color: var(--background) !important;
+  background-color: var(--code-background) !important;
   padding: 0.15em;
   padding-left: 0.3em;
   padding-right: 0.3em;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 /* Don't set this for code in general because that would put inline code on a newline. */
 pre code {
+  background-color: var(--code-background);
   font-size: 14px;
-  border: 1px solid #dbdbdb;
+  border: 1px solid var(--code-border);
   display: block;
   overflow: auto;
   white-space: pre;
@@ -315,10 +333,10 @@ tr:first-of-type>th {
 
 tr, th, td {
  padding: 8px;
- border: 1px solid lightgray;
+ border: 1px solid var(--border);
  text-align: left !important;
 }
 
 table tbody tr td {
- border:1px solid lightgray;
+ border:1px solid var(--border);
 }
