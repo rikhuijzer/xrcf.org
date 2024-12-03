@@ -5,9 +5,9 @@
     {% for page in section.pages %}
     <span>{{ page.date }}</span>
     <a href="{{ page.permalink }}">
-        <p style="font-size: 40px; margin-top: 10px;">
+        <h1 style="margin-top: 10px;">
             {{ page.title }}
-        </p>
+        </h1>
     </a>
     {{ page.description | safe }}
     <br>

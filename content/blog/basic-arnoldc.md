@@ -1,5 +1,5 @@
 +++
-title = "A Basic ArnoldC Compiler"
+title = "A New Compiler for the Arnold Schwarzenegger Language"
 date = 2024-12-02
 description = "As an example of how to use xrcf to write a compiler, there is now a basic ArnoldC compiler in the repository."
 +++
