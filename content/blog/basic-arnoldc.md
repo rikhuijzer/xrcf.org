@@ -51,7 +51,7 @@ Options:
 A compiler for the ArnoldC language
 ```
 
-To compile ArnoldC, let's create a file called `tmp.arnoldc` with the hello world program:
+To compile ArnoldC, let's create a file called `hello.arnoldc` with the hello world program:
 
 ```arnoldc
 IT'S SHOWTIME
@@ -62,7 +62,7 @@ YOU HAVE BEEN TERMINATED
 Next, let's see what the compiler generates when we run the `--convert-arnold-to-mlir` pass:
 
 ```sh
-$ arnoldc --convert-arnold-to-mlir tmp.arnoldc
+$ arnoldc --convert-arnold-to-mlir hello.arnoldc
 ```
 
 This prints:
@@ -85,7 +85,7 @@ Although this MLIR code looks nice (or at least more so than ArnoldC), let's get
 To do so, let's convert the MLIR code to LLVM IR by running all the required passes in order:
 
 ```sh
-$ arnoldc --convert-arnold-to-mlir --convert-experimental-to-mlir --convert-func-to-llvm --convert-mlir-to-llvmir tmp.arnoldc
+$ arnoldc --convert-arnold-to-mlir --convert-experimental-to-mlir --convert-func-to-llvm --convert-mlir-to-llvmir hello.arnoldc
 ```
 
 This prints:
@@ -110,7 +110,7 @@ define i32 @main() {
 Remembering these passes and in the order in which to run them is cumbersome, so let's use the `compile` flag, which is a wrapper around the above command:
 
 ```sh
-$ arnoldc --compile tmp.arnoldc
+$ arnoldc --compile hello.arnoldc
 ```
 
 It returns the same LLVM IR as before.
@@ -123,7 +123,7 @@ For example, on MacOS, `brew install llvm`.
 Let's run our compiled code:
 
 ```sh
-$ arnoldc --compile tmp.arnoldc | lli
+$ arnoldc --compile hello.arnoldc | lli
 Hello, World!
 ```
 
@@ -152,7 +152,7 @@ Let's see what the compiler generates.
 To get readable code, we do only the `--convert-arnold-to-mlir` pass:
 
 ```sh
-$ arnoldc --convert-arnold-to-mlir tmp.arnoldc
+$ arnoldc --convert-arnold-to-mlir print.arnoldc
 ```
 
 This prints:
@@ -172,7 +172,7 @@ module {
 Let's run the compiled code:
 
 ```sh
-$ arnoldc --compile tmp.arnoldc | lli
+$ arnoldc --compile print.arnoldc | lli
 x: 1
 ```
 
@@ -190,7 +190,7 @@ YOU HAVE BEEN TERMINATED
 If we now run the compiler, it will fail with a clear error message:
 
 ```sh
-$ arnoldc --compile tmp.arnoldc
+$ arnoldc --compile invalid.arnoldc
 thread 'main' panicked at arnoldc/src/main.rs:67:60:
 called `Result::unwrap()` on an `Err` value: 
 
