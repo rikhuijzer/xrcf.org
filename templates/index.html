@@ -6,6 +6,14 @@
         <meta name="description" content="{% block description %}{{ config.description }}{% endblock description %}">
         <title>{% block title %}{{ config.title }}{% endblock title %}</title>
         <link rel="stylesheet" href="/style.css">
+        <link rel="stylesheet" href="/highlight/github.min.css">
+        <script src="/highlight/highlight.min.js"></script>
+        <script src="/highlight/mlir.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', (event) => {
+                hljs.highlightAll();
+            });
+        </script>
     </head>
 
     <body>

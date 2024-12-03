@@ -3,13 +3,16 @@
 {% block content %}
 <div class="articles">
     {% for page in section.pages %}
-    <a style="text-decoration: none; color: black;" href="{{ page.permalink }}">
-        <span>{{ page.date }}</span>
+    <span>{{ page.date }}</span>
+    <a style="color: black;" href="{{ page.permalink }}">
         <p style="font-size: 40px; margin-top: 10px;">
             {{ page.title }}
         </p>
-        {{ page.description | safe }}
     </a>
+    {{ page.description | safe }}
+    <br>
+    <br>
+    <a href="{{ page.permalink }}">read more ►</a>
     <hr>
     {% endfor %}
 </div>
