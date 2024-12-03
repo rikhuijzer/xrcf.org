@@ -11,7 +11,7 @@ To follow along, you can either clone the repository and run:
 ```sh
 $ cargo install --path arnoldc
 ```
-Or download the binary from the [v0.4.0 release page](https://github.com/rikhuijzer/xrcf/releases/tag/v0.4.0).
+Or download the arnoldc binary from the [v0.4.0 release page](https://github.com/rikhuijzer/xrcf/releases/tag/v0.4.0).
 
 The ArnoldC language is based on one-liners from Arnold Schwarzenegger movies.
 This is what a valid "Hello, World!" program looks like:
