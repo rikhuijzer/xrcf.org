@@ -6,17 +6,17 @@ description = "As an example of how to use xrcf to write a compiler, there is no
 
 With the release of version 0.4, there is now a basic ArnoldC compiler in the repository.
 This ArnoldC compiler is a test case for the compiler framework.
-If the framework can handle the ArnoldC language well, then it will be useful for other languages too.
+If the framework can handle this language well, then it will be useful for other languages too.
 The full code for the compiler can be found [here](https://github.com/rikhuijzer/xrcf/tree/v0.4.0/arnoldc).
 
-In this blog post, I will show how the compiler can be used.
+In this blog post, I will show how the compiler can be used to generate fast code for the CPU.
 To follow along, you can either clone the repository and run:
 ```sh
 $ cargo install --path arnoldc
 ```
-Or download the arnoldc binary from the [v0.4.0 release page](https://github.com/rikhuijzer/xrcf/releases/tag/v0.4.0).
+Or download the `arnoldc` binary from the [v0.4.0 release page](https://github.com/rikhuijzer/xrcf/releases/tag/v0.4.0).
 
-The ArnoldC language is based on one-liners from Arnold Schwarzenegger movies.
+The [ArnoldC language](https://github.com/lhartikk/ArnoldC) is based on one-liners from Arnold Schwarzenegger movies.
 This is what a valid "Hello, World!" program looks like:
 
 ```arnoldc
@@ -26,7 +26,6 @@ YOU HAVE BEEN TERMINATED
 ```
 
 Here, `IT'S SHOWTIME` means "begin main", `TALK TO THE HAND` means "print", and `YOU HAVE BEEN TERMINATED` means "end main".
-You could decide to indent the `TALK TO THE HAND` line, but the language specification doesn't do it so we won't either.
 
 Before we use the compiler, let's see whether the installation was successful:
 
@@ -137,14 +136,14 @@ To run our compiled code, we can use the LLVM interpreter via the `lli` command.
 This executable is part of the LLVM project, so it can usually be installed via the package manager.
 For example, on MacOS, `brew install llvm`.
 
-Let's run our compiled code:
+Finally, let's run the code via the LLVM interpreter!
 
 ```sh
 $ arnoldc --compile hello.arnoldc | lli
 Hello, World!
 ```
 
-We can also produce a executable via:
+Or produce a native executable:
 
 ```sh
 $ arnoldc --compile hello.arnoldc | llc -filetype=obj -o hello.o
