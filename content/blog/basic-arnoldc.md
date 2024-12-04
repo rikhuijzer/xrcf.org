@@ -5,9 +5,10 @@ description = "As an example of how to use xrcf to write a compiler, there is no
 +++
 
 With the release of version 0.4, there is now a basic ArnoldC compiler in the repository.
-ArnoldC is a test case for the compiler framework.
-If the framework can handle the language well, then it will be useful for other compiler projects too.
-The full code can be found [here](https://github.com/rikhuijzer/xrcf/tree/v0.4.0/arnoldc).
+This ArnoldC compiler is a test case for the compiler framework.
+If the framework can handle the ArnoldC language well, then it will be useful for other languages too.
+The full code for the compiler can be found [here](https://github.com/rikhuijzer/xrcf/tree/v0.4.0/arnoldc).
+
 In this blog post, I will show how the compiler can be used.
 To follow along, you can either clone the repository and run:
 ```sh
@@ -85,7 +86,7 @@ It also added a 0 return value to the `main` function.
 This ensures that the program will return a 0 status code, which is the convention for programs that didn't crash.
 
 Although this MLIR code looks nice (or at least more so than ArnoldC), let's get it to run.
-To do so, let's convert the MLIR code to LLVM IR by running all the required passes in order:
+To do so, convert the MLIR code to LLVM IR by running all the required passes in order:
 
 ```sh
 $ arnoldc \
@@ -171,7 +172,7 @@ This should print:
 ```text
 x: 1
 ```
-because `@NO PROBLEMO` in ArnoldC is equivalent to the boolean `true`.
+because `HEY CHRISTMAS TREE x` is equivalent to what in Python would be `x =` and `@NO PROBLEMO` in ArnoldC is equivalent to the boolean `True`.
 
 Let's see what the compiler generates.
 To get readable code, we do only the `--convert-arnold-to-mlir` pass:
@@ -194,7 +195,7 @@ module {
 }
 ```
 
-Let's run the compiled code:
+Which can be executed via:
 
 ```sh
 $ arnoldc --compile print.arnoldc | lli
@@ -224,8 +225,6 @@ called `Result::unwrap()` on an `Err` value:
 ```
 
 Messages like this are also part of the framework.
-
-So in summary, this blog post demonstrated the ArnoldC compiler which was written using the xrcf framework.
 
 This concludes the walkthrough, or as Arnold would say:
 
