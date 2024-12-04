@@ -12,6 +12,7 @@ title = "Home"
     </div>
 </div>
 
+<div id="status"></div>
 <center>
     <h2>Status</h2>
 </center>
@@ -29,15 +30,19 @@ If xrcf can handle it well, then it will be useful for other compiler projects t
 
 In the table below, a checkmark ✅ means that at least one implementation exists which can lower the construct to code that can be executed on the CPU (via LLVM).
 
-Construct | MLIR | LLVM dialect | LLVMIR
+Construct | MLIR | LLVM dialect | LLVM IR
 --- | --- | --- | ---
 functions | ✅ | ✅ | ✅
 add | ✅ | ✅ | ✅
 print | ✅ | ✅ | ✅
 if else | | ✅ | ✅
+for loop | | |
+while loop | | |
+... | | |
 
-For example, this means that to get print to run on the CPU, you just need to build a transformation from your code to MLIR.
-The rest of the transformations are built into xrcf.
+For example, this table means that print can be lowered from MLIR to the LLVM dialect and then to LLVM IR.
+This means that to get your own `print` operation to run on the CPU, you only need to convert your own `print` operation to MLIR.
+From there, xrcf can be used to run your code on the CPU.
 
 <center>
     <h3>Lowering to GPU</h3>

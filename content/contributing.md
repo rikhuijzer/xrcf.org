@@ -28,3 +28,7 @@ $ cargo watch -x test
 ```
 
 to automatically run the tests when you make changes.
+
+For the short term, the focus is on making the ArnoldC compiler feature complete.
+The better xrcf can be used for ArnoldC, the more useful it will be for other compiler projects.
+See [status](/#status) for the current status.

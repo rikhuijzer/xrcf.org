@@ -5,6 +5,8 @@ description = "As an example of how to use xrcf to write a compiler, there is no
 +++
 
 With the release of version 0.4, there is now a basic ArnoldC compiler in the repository.
+ArnoldC is a test case for the compiler framework.
+If the framework can handle the language well, then it will be useful for other compiler projects too.
 The full code can be found [here](https://github.com/rikhuijzer/xrcf/tree/v0.4.0/arnoldc).
 In this blog post, I will show how the compiler can be used.
 To follow along, you can either clone the repository and run:
@@ -23,8 +25,9 @@ YOU HAVE BEEN TERMINATED
 ```
 
 Here, `IT'S SHOWTIME` means "begin main", `TALK TO THE HAND` means "print", and `YOU HAVE BEEN TERMINATED` means "end main".
+You could decide to indent the `TALK TO THE HAND` line, but the language specification doesn't do it so we won't either.
 
-So before we use the compiler, let's see whether the installation was successful:
+Before we use the compiler, let's see whether the installation was successful:
 
 ```sh
 $ arnoldc --help
@@ -85,10 +88,25 @@ Although this MLIR code looks nice (or at least more so than ArnoldC), let's get
 To do so, let's convert the MLIR code to LLVM IR by running all the required passes in order:
 
 ```sh
-$ arnoldc --convert-arnold-to-mlir --convert-experimental-to-mlir --convert-func-to-llvm --convert-mlir-to-llvmir hello.arnoldc
+$ arnoldc \
+    --convert-arnold-to-mlir \
+    --convert-experimental-to-mlir \
+    --convert-func-to-llvm \
+    --convert-mlir-to-llvmir \
+    hello.arnoldc
 ```
 
-This prints:
+Think of each of these passes as a set of transformations.
+For example, the `--convert-arnold-to-mlir` pass transforms:
+```arnoldc
+TALK TO THE HAND "Hello, World!\n"
+```
+to
+```mlir
+experimental.printf("Hello, World!\0A")
+```
+
+The command with all passes applied prints the following LLVM IR:
 
 ```llvm
 ; ModuleID = 'LLVMDialectModule'
@@ -107,13 +125,11 @@ define i32 @main() {
 !0 = !{i32 2, !"Debug Info Version", i32 3}
 ```
 
-Remembering these passes and in the order in which to run them is cumbersome, so let's use the `compile` flag, which is a wrapper around the above command:
+Remembering these passes and in the order in which to run them is cumbersome, so it is also possible to use the `compile` flag, which is a wrapper around the above command and produces the same result:
 
 ```sh
 $ arnoldc --compile hello.arnoldc
 ```
-
-It returns the same LLVM IR as before.
 
 To run our compiled code, we can use the LLVM interpreter via the `lli` command.
 `lli` executes programs written in the LLVM bitcode format.
@@ -127,7 +143,16 @@ $ arnoldc --compile hello.arnoldc | lli
 Hello, World!
 ```
 
-Although the compiler is still far from complete, there is one more thing we can do.
+We can also produce a executable via:
+
+```sh
+$ arnoldc --compile hello.arnoldc | llc -filetype=obj -o hello.o
+$ clang hello.o -o hello
+$ ./hello
+Hello, World!
+```
+
+Although the compiler is still far from complete (see [status](/#status) for details), there is one more thing we can do.
 We can print a variable:
 
 ```arnoldc
@@ -176,10 +201,7 @@ $ arnoldc --compile print.arnoldc | lli
 x: 1
 ```
 
-Uhm and I will not show the LLVM IR this time because it's nearly unreadable.
-That's why we use a compiler in the first place, right?
-
-Anyway, as a final example, let's see what happens if we write invalid code:
+As a final example, let's see what happens if we write invalid code:
 
 ```arnoldc
 IT'S SHOWTIME
@@ -221,6 +243,8 @@ It is split into three parts:
 1. `src/arnold_to_mlir.rs` contains the `--convert-arnold-to-mlir` pass, which converts the ArnoldC code to MLIR.
 
 All other passes such as `--convert-func-to-llvm` are implemented in the `xrcf` crate.
+
+If you want to contribute to the compiler framework, see [contributing](/contributing).
 
 Although the compiler framework is not yet feature complete, if you want to build your own compiler, here are some modern compiler projects that could serve as inspiration:
 
