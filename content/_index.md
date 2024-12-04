@@ -12,10 +12,9 @@ title = "Home"
     </div>
 </div>
 
-<div id="status"></div>
-<center>
+<div id="status" style="text-align: center;">
     <h2>Status</h2>
-</center>
+</div>
 
 In the long term, the aim for xrcf is to allow building compilers that can compile any programming language to any target architecture.
 
@@ -24,9 +23,9 @@ To see the compiler in action, see the [walkthrough](/blog/basic-arnoldc).
 ArnoldC is just a test case.
 If xrcf can handle it well, then it will be useful for other compiler projects too.
 
-<center>
+<div style="text-align: center;">
     <h3>Lowering to CPU</h3>
-</center>
+</div>
 
 In the table below, a checkmark ✅ means that at least one implementation exists which can lower the construct to code that can be executed on the CPU (via LLVM).
 
