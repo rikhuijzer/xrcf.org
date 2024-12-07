@@ -7,7 +7,7 @@ description = "As an example of how to use xrcf to write a compiler, there is no
 Since the release of version 0.4, there is now a basic ArnoldC compiler in the repository.
 This ArnoldC compiler is a test case for the compiler framework.
 If the framework can handle this language well, then it will be useful for other languages too.
-The full code for the compiler can be found [here](https://github.com/rikhuijzer/xrcf/tree/v0.4.0/arnoldc).
+The full code for the compiler can be found [here](https://github.com/rikhuijzer/xrcf/tree/v0.5.0/arnoldc).
 
 In this blog post, I will show how the compiler can be used to generate fast code for the CPU.
 To follow along, you can either clone the repository and run:
