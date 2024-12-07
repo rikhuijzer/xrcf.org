@@ -141,7 +141,7 @@ To run our compiled code, we can use the LLVM interpreter via the `lli` command.
 This executable is part of the LLVM project, so it can usually be installed via the package manager.
 For example, on MacOS, `brew install llvm`.
 
-Finally, let's run the code via the LLVM interpreter!
+Enough talk, let's run the code!
 
 ```sh
 $ arnoldc --compile hello.arnoldc | lli
@@ -252,13 +252,9 @@ If you want to contribute to the compiler framework, see [contributing](/contrib
 Although the compiler framework is not yet feature complete, if you want to build your own compiler, here are some modern compiler projects that could serve as inspiration:
 
 - [jax](https://github.com/jax-ml/jax): A Python library for accelerator-oriented computing
-- [triton](https://github.com/triton-lang/triton): A Python library for high-performance computation on GPUs by OpenAI.
 - [tvm](https://tvm.apache.org/): A end to end machine learning compiler framework for CPUs, GPUs, and accelerators.
 - [torch-mlir](https://github.com/llvm/torch-mlir): Compiles PyTorch to MLIR.
-- [mlir-hlo](https://github.com/llvm/mlir-hlo): A set of transformations from TensorFlow HLO to MLIR.
 - [Flang](https://flang.llvm.org/docs/): A LLVM-based Fortran compiler.
-- [circt](https://github.com/llvm/circt): A compiler for hardware design.
-- [mojo](https://www.modular.com/mojo): A new programming language for AI by Modular.
 
 Or you could build a compiler for a different movie star.
 Or your favorite tensor processing unit.
