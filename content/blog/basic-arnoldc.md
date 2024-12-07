@@ -4,7 +4,7 @@ date = 2024-12-02
 description = "As an example of how to use xrcf to write a compiler, there is now a basic ArnoldC compiler in the repository."
 +++
 
-With the release of version 0.4, there is now a basic ArnoldC compiler in the repository.
+Since the release of version 0.4, there is now a basic ArnoldC compiler in the repository.
 This ArnoldC compiler is a test case for the compiler framework.
 If the framework can handle this language well, then it will be useful for other languages too.
 The full code for the compiler can be found [here](https://github.com/rikhuijzer/xrcf/tree/v0.4.0/arnoldc).
@@ -14,7 +14,7 @@ To follow along, you can either clone the repository and run:
 ```sh
 $ cargo install --path arnoldc
 ```
-Or download the `arnoldc` binary from the [v0.4.0 release page](https://github.com/rikhuijzer/xrcf/releases/tag/v0.4.0).
+Or download the `arnoldc` binary from the [release page](https://github.com/rikhuijzer/xrcf/releases/tag/v0.5.0).
 
 The [ArnoldC language](https://github.com/lhartikk/ArnoldC) is based on one-liners from Arnold Schwarzenegger movies.
 This is what a valid "Hello, World!" program looks like:
@@ -44,14 +44,17 @@ Arguments:
   [INPUT]  The input file (- is interpreted as stdin) [default: -]
 
 Options:
+      --convert-scf-to-cf             Convert structured control flow (scf) operations to cf
+      --convert-cf-to-llvm            Convert control flow (cf) operations to LLVM
       --convert-experimental-to-mlir  Convert experimental operations to MLIR
-      --convert-func-to-llvm          Convert function operations to LLVM IR
+      --convert-func-to-llvm          Convert function operations to LLVM
       --convert-mlir-to-llvmir        Convert MLIR to LLVM IR
+      --print-ir-before-all           Print the IR before each pass
       --convert-arnold-to-mlir        Convert ArnoldC operations to MLIR
       --compile                       Compile the code
+      --debug                         Print debug information
   -h, --help                          Print help
   -V, --version                       Print version
-A compiler for the ArnoldC language
 ```
 
 To compile ArnoldC, let's create a file called `hello.arnoldc` with the hello world program:
@@ -91,6 +94,8 @@ To do so, convert the MLIR code to LLVM IR by running all the required passes in
 $ arnoldc \
     --convert-arnold-to-mlir \
     --convert-experimental-to-mlir \
+    --convert-scf-to-cf \
+    --convert-cf-to-llvm \
     --convert-func-to-llvm \
     --convert-mlir-to-llvmir \
     hello.arnoldc
@@ -194,7 +199,7 @@ module {
 }
 ```
 
-Which can be executed via:
+Which returns the expected value:
 
 ```sh
 $ arnoldc --compile print.arnoldc | lli
@@ -223,7 +228,7 @@ called `Result::unwrap()` on an `Err` value:
 ---
 ```
 
-Messages like this are also part of the framework.
+As is expected when building a compiler, the error message point to the exact location of the error with a description of the problem.
 
 This concludes the walkthrough, or as Arnold would say:
 
@@ -233,7 +238,7 @@ YOU HAVE BEEN TERMINATED
 
 ## Next Steps
 
-To learn how to build your own compiler, see the files inside the [`arnoldc` directory](https://github.com/rikhuijzer/xrcf/tree/v0.4.0/arnoldc).
+To learn how to build your own compiler, see the files inside the [`arnoldc` directory](https://github.com/rikhuijzer/xrcf/tree/v0.5.0/arnoldc).
 It is split into three parts:
 
 1. `src/main.rs` defines the command line interface.
