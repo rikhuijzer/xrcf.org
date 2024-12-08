@@ -138,3 +138,7 @@ To end this post on a more positive note, I want to mention that I think there a
 For example, one is that when you look at the compiler as a whole, it is deterministic and without side-effects.
 Put differently, given the same input, the compiler will always produce the same output.
 This makes reproducing bugs and writing tests very easy.
+
+Okay now that this is written up, time for me to go back to writing code.
+178 commits done.
+One thousand to go.
