@@ -283,6 +283,7 @@ code {
   font-family: 'Source Code Pro', monospace;
   font-variant-ligatures: none;
   background-color: var(--code-background) !important;
+  white-space: nowrap;
   padding: 0.15em;
   padding-left: 0.3em;
   padding-right: 0.3em;

@@ -28,13 +28,13 @@ So it should be easy.
 However, when working on a new feature or bug fix, I often find myself adding a test case and then leaving the code sit for a few days to think about the problem.
 Next, implementing it is often like wading through mud.
 I expect that this will become better with time because my brain will adjust, but currently it's surprisingly hard.
-That's why I want to write down my thoughts.
+That's why I want to write down my thoughts now that I still have "fresh eyes".
 This could be useful for myself to understand where the difficulties are so that I can improve the framework.
 And maybe it will be interesting for others too.
 So let's dive in.
 Remember that I said there are no side-effects?
 
-## Side-effects 
+## Side-effects Everywhere
 
 There are plenty of side-effects inside a compiler.
 For example, take the following Python code:
@@ -70,7 +70,7 @@ The other is in step 4, where we remove `y = 1`.
 This can only happen if `y` is a variable that is no longer used.
 If `y` is used somewhere else, we cannot remove the assignment.
 
-## Pointers
+## Pointers Everywhere
 
 Another source of complexity is that we need pointers to navigate the data structure.
 To see why, let's look at the data structure.
@@ -98,7 +98,7 @@ Or we need a pointer inside the `y` object that points to the definition of `y`.
 In both cases, this pointer has to be set when creating the data structure and then updated during rewriting.
 It's all not impossible, but it does add some complexity.
 
-## Mutability
+## Mutability Everywhere
 
 Related to the side-effects and pointers, we need to accept mutability to make the compiler fast.
 Mutability makes the data structure harder to understand, because it's less clear what state the object is in at some point in time.
@@ -114,7 +114,7 @@ For example, when parsing the code, at some point we have parsed the function de
 
 ```yaml
 ├── function: add_one(x)
-    ├── 
+    ├── assignment: y = 1
 ```
 
 And now we want to set the parent of `y = 1` to be `add_one(x)`.
@@ -123,9 +123,18 @@ So what we have to do is create the object for `add_one` first, but not yet set 
 Then, we pass this unfinished object to the parser of the children `y = 1` and `return x + y` so that the parent can be set.
 Once these children are parsed, we can set them to be the children of `add_one` and are done.
 
+## Imperative Code
+
+
+
 ## Jargon
 
 
 
 ## Being Closer to the Hardware
 
+
+To end this post on a more positive note, I want to mention that I think there are also some enjoyable aspects of writing a compiler.
+For example, one is that when you look at the compiler as a whole, it is deterministic and without side-effects.
+Put differently, given the same input, the compiler will always produce the same output.
+This makes reproducing bugs and writing tests very easy.
