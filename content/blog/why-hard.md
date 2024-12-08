@@ -115,29 +115,118 @@ For example, when parsing the code, at some point we have parsed the function de
 ```yaml
 ├── function: add_one(x)
     ├── assignment: y = 1
+                    ^ Imagine the parser is here.
 ```
 
 And now we want to set the parent of `y = 1` to be `add_one(x)`.
 However, we are not yet done parsing `add_one` since we still need to parse the second child: `return x + y`.
-So what we have to do is create the object for `add_one` first, but not yet set its children.
-Then, we pass this unfinished object to the parser of the children `y = 1` and `return x + y` so that the parent can be set.
+So we have to create the object for `add_one` first without setting its children.
+Then, we pass this unfinished object to the parser of the children `y = 1` and `return x + y` so that the parent can be set to `add_one`.
 Once these children are parsed, we can set them to be the children of `add_one` and are done.
 
 ## Imperative Code
 
+Next to the side-effects, mutability, and pointers, there is also the question of how to describe the rewrite rules.
+Let's consider again this rewrite:
 
+```yaml
+├── function: add_one(x)
+    ├── assignment: y = 1
+    └── return: x + y
+```
 
-## Jargon
+to this:
 
+```yaml
+├── function: add_one(x)
+    └── return: x + 1
+```
 
+Now how would we describe this rewrite in code?
+Preferably, we would do this in a declarative way.
+MLIR uses a pattern language to describe these kinds of rewrites.
+For example, the rewrite for `addi(addi(x, c0), c1)` to `addi(x, c0 + c1)` is described as
+[follows](
+https://github.com/llvm/llvm-project/blob/6c062afc2e6ed4329e1e14cb011913195a5356fa/mlir/lib/Dialect/Arith/IR/ArithCanonicalization.td#L42-L48):
 
-## Being Closer to the Hardware
+```cpp
+def AddIAddConstant :
+    Pat<(Arith_AddIOp:$res
+          (Arith_AddIOp $x, (ConstantLikeMatcher APIntAttr:$c0), $ovf1),
+          (ConstantLikeMatcher APIntAttr:$c1), $ovf2),
+        (Arith_AddIOp $x, (Arith_ConstantOp (AddIntAttrs $res, $c0, $c1)),
+            (MergeOverflow $ovf1, $ovf2))>;
+```
 
+So then I guess our `add_one` rewrite would be something like this:
 
-To end this post on a more positive note, I want to mention that I think there are also some enjoyable aspects of writing a compiler.
-For example, one is that when you look at the compiler as a whole, it is deterministic and without side-effects.
+```cpp
+def AddOne :
+    Pat<(Add $x, (ConstantLikeMatcher APIntAttr:$c1)),
+        (Add $x, (Arith_ConstantOp (AddIntAttrs $res, $c0, $c1))>;
+```
+
+Now my usual problem with declarative code is that it works great until it doesn't.
+There are always cases that cannot be expressed in declarative code.
+And then you are left with handling the most complex cases in imperative code, while you have done all the easy cases in declarative code.
+Also the codebase is then a mix of declarative and imperative code.
+Maybe that's still better than having to do everything imperative.
+I'm not sure yet.
+It does appear complex, that's all I'm saying for now.
+
+The alternative is to write imperative code.
+For example, we could write a rewrite rule that looks like this:
+
+```python
+def rewrite(op: Add):
+    if op.rhs.definition is not None:
+        if op.rhs.definition.op == Constant:
+            new_rhs = Arith_ConstantOp(op.rhs.definition.value)
+            op.rhs.replace(new_rhs)
+```
+
+This somehow is to me also not that easy to understand.
+It's different code than for example:
+
+```python
+def count_vowels(s):
+  vowels = "aeiou"
+  count = 0
+  for char in s:
+    if char.lower() in vowels:
+      count += 1
+  return count
+```
+
+Although this example is longer than the rewrite above, it's much easier to understand.
+I'm not sure what the reason is for this.
+Maybe it's because of the pointers such as `op.rhs.definition`, or all the non-standard data types such as `Arith_ConstantOp`?
+Maybe it's just because my brain is not used to it yet.
+
+## A More Positive Note
+
+So why is writing a compiler so hard?
+Currently, I think it's because of the side-effects, mutability, and pointers.
+
+To end on a more positive note, I want to mention that I think there are also some enjoyable aspects of writing a compiler.
+One is that when you look at the compiler as a whole, it is deterministic and without side-effects.
 Put differently, given the same input, the compiler will always produce the same output.
+At the same time, the inputs and outputs are all in textual form.
 This makes reproducing bugs and writing tests very easy.
+This is in contrast to testing graphical user interfaces, where most of the tests cannot be (fully) automated.
+
+Another enjoyable aspect is that the problems are hard but fair.
+If the program crashes, it's probably your fault.
+You cannot blame the internet provider, operating system, other software, or the hard disk.
+No.
+If the compiler crashes, it's probably your fault.
+The only thing that you depend on is reading a bunch of files and writing to stdout.
+
+So that's why I'll keep working on this framework.
+It's hard, but fun.
+Now if you after reading this became less interested in compilers, then that's fine.
+If after reading this you became more interested, feel free to check out the [project on GitHub](https://github.com/rikhuijzer/xrcf).
+Contributions as well as complaints are welcome!
 
 Okay now that this is written up, time for me to go back to writing code.
 178 commits done.
