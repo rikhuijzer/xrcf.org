@@ -15,14 +15,15 @@ Last year, I've spent a few months experimenting with and contributing to variou
 I had great fun, but felt that the developer experience could be better.
 The build systems were often hard-to-use, and the tooling was often complex enough for "jump to definition" to not work.
 So that's why I started to write a new compiler framework a few months ago.
-It's essentially written for my former self.
-When I started with compilers, I wanted a tool that was easy to build and (reasonably) easy to understand. 
+And to be clear, I'm not saying that the other frameworks are bad or that I am an expert compiler developer.
+Sometimes it's just about saying "How hard can it be?".
 
-Now that I'm a few months into the project, I often find myself being surprised by how complex it is to write a compiler.
+Now that I'm a few months into the project, I often find myself being surprised by how hard it actually is.
 But it shouldn't be, right?
 There are no side-effects like databases, file IO, or network requests.
 You just read the files containing the source code, do some processing, and print the compiled code.
 Everything happens inside memory.
+Also, there are many great open source compilers out there that I'm basing my code on.
 So it should be easy.
 
 However, when working on a new feature or bug fix, I often find myself adding a test case and then leaving the code sit for a few days to think about the problem.
@@ -32,6 +33,7 @@ That's why I want to write down my thoughts now that I still have "fresh eyes".
 This could be useful for myself to understand where the difficulties are so that I can improve the framework.
 And maybe it will be interesting for others too.
 So let's dive in.
+
 Remember that I said there are no side-effects?
 
 ## Side-effects Everywhere
@@ -203,6 +205,14 @@ I'm not sure what the reason is for this.
 Maybe it's because of the pointers such as `op.rhs.definition`, or all the non-standard data types such as `Arith_ConstantOp`?
 Maybe it's just because my brain is not used to it yet.
 
+## What Other People Say
+
+After writing this post, I also looked online to see what other people say.
+
+There is [shipreq](https://web.archive.org/web/20210122001929/https://blog.shipreq.com/post/compilers_are_hard), who also mentions that the many combinations that are possible make it hard.
+As a special case, this is especially difficult for error messages too since all the different invalid cases have to be handled.
+
+
 ## A More Positive Note
 
 So why is writing a compiler so hard?
@@ -224,6 +234,7 @@ The only thing that you depend on is reading a bunch of files and writing to std
 
 So that's why I'll keep working on this framework.
 It's hard, but fun.
+Hopefully the biggest sources of complexity can be moved into the framework, so that other people don't have to deal with them.
 Now if you after reading this became less interested in compilers, then that's fine.
 If after reading this you became more interested, feel free to check out the [project on GitHub](https://github.com/rikhuijzer/xrcf).
 Contributions as well as complaints are welcome!
