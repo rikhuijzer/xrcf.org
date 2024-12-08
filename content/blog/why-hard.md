@@ -13,22 +13,23 @@ It's open source and can be found on [GitHub](https://github.com/rikhuijzer/xrcf
 
 Last year, I've spent a few months experimenting with and contributing to various compilers.
 I had great fun, but felt that the developer experience could be better.
-The build systems were often hard-to-use, and the tooling was often complex enough for "jump to definition" to not work.
+The build systems were often hard-to-use, and the tooling was often complex enough for things like "jump to definition" to not work.
 So that's why I started to write a new compiler framework a few months ago.
 And to be clear, I'm not saying that the other frameworks are bad or that I am an expert compiler developer.
-Sometimes it's just about saying "How hard can it be?".
+Sometimes it's just about saying "how hard can it be?"
 
 Now that I'm a few months into the project, I often find myself being surprised by how hard it actually is.
 But it shouldn't be, right?
 There are no side-effects like databases, file IO, or network requests.
 You just read the files containing the source code, do some processing, and print the compiled code.
 Everything happens inside memory.
-Also, there are many great open source compilers out there that I'm basing my code on.
+Also, there are many great open source projects out there that I'm basing my code on.
 So it should be easy.
 
 However, when working on a new feature or bug fix, I often find myself adding a test case and then leaving the code sit for a few days to think about the problem.
 Next, implementing it is often like wading through mud.
 I expect that this will become better with time because my brain will adjust, but currently it's surprisingly hard.
+
 That's why I want to write down my thoughts now that I still have "fresh eyes".
 This could be useful for myself to understand where the difficulties are so that I can improve the framework.
 And maybe it will be interesting for others too.
@@ -36,7 +37,7 @@ So let's dive in.
 
 Remember that I said there are no side-effects?
 
-## Side-effects Everywhere
+## Side-Effects Everywhere
 
 There are plenty of side-effects inside a compiler.
 For example, take the following Python code:
@@ -54,7 +55,7 @@ def add_one(x):
     return x + 1
 ```
 
-since this would avoid one addition.
+since this would avoid one addition operation.
 But which steps would the compiler take to rewrite this code?
 Assuming that we already parsed the code into some data structure, the steps would be something like:
 
@@ -93,12 +94,12 @@ Next, we rewrite this code to this:
     └── return: x + 1
 ```
 
-Now when we are in step 1, we need to find the definition of `y`.
+Now when we are in step 1 of the rewrite listed above, we need to find the definition of `y`.
 This means that we need to find the parent of `return x + y` in the data structure.
 Hence, we need a pointer inside the `return x + y` object that points to its parent.
 Or we need a pointer inside the `y` object that points to the definition of `y`.
 In both cases, this pointer has to be set when creating the data structure and then updated during rewriting.
-It's all not impossible, but it does add some complexity.
+It's all not impossible, but it does add complexity.
 
 ## Mutability Everywhere
 
@@ -112,7 +113,7 @@ Thus, if we would make everything immutable, we would need to copy over almost a
 This would be very inefficient.
 
 Relatedly, we need mutability in order to be able to set the pointer to the parent.
-For example, when parsing the code, at some point we have parsed the function definition and start parsing the assignment `y = 1`:
+For example, when parsing the code, at some point we have parsed the function definition for `add_one` and start parsing the assignment `y = 1`:
 
 ```yaml
 ├── function: add_one(x)
@@ -120,11 +121,21 @@ For example, when parsing the code, at some point we have parsed the function de
                     ^ Imagine the parser is here.
 ```
 
-And now we want to set the parent of `y = 1` to be `add_one(x)`.
-However, we are not yet done parsing `add_one` since we still need to parse the second child: `return x + y`.
+And now we want to set the parent of the `y = 1` object to be the `add_one` object.
+However, we weren't able to construct the `add_one` object yet since we are still parsing the children `y = 1` and `return x + y`.
 So we have to create the object for `add_one` first without setting its children.
-Then, we pass this unfinished object to the parser of the children `y = 1` and `return x + y` so that the parent can be set to `add_one`.
-Once these children are parsed, we can set them to be the children of `add_one` and are done.
+Then, we pass this unfinished `add_one` object to the parser of the children and set it as the parent.
+
+Once the parser is done parsing the children:
+
+```yaml
+├── function: add_one(x)
+    ├── assignment: y = 1
+    └── return: x + y
+                     ^ Imagine the parser is here.
+```
+
+We can finally complete the `add_one` object by setting the children.
 
 ## Imperative Code
 
@@ -200,18 +211,10 @@ def count_vowels(s):
   return count
 ```
 
-Although this example is longer than the rewrite above, it's much easier to understand.
+Although this example is longer than the rewrite above, I think it's much easier to understand.
 I'm not sure what the reason is for this.
 Maybe it's because of the pointers such as `op.rhs.definition`, or all the non-standard data types such as `Arith_ConstantOp`?
 Maybe it's just because my brain is not used to it yet.
-
-## What Other People Say
-
-After writing this post, I also looked online to see what other people say.
-
-There is [shipreq](https://web.archive.org/web/20210122001929/https://blog.shipreq.com/post/compilers_are_hard), who also mentions that the many combinations that are possible make it hard.
-As a special case, this is especially difficult for error messages too since all the different invalid cases have to be handled.
-
 
 ## A More Positive Note
 
