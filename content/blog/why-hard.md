@@ -230,9 +230,8 @@ This is in contrast to testing graphical user interfaces, where most of the test
 
 Another enjoyable aspect is that the problems are hard but fair.
 If the program crashes, it's probably your fault.
-You cannot blame the internet provider, operating system, other software, or the hard disk.
-No.
-If the compiler crashes, it's probably your fault.
+You cannot blame other software, the internet provider, operating system, or the hard disk.
+No, if the compiler crashes, it's probably your fault.
 The only thing that you depend on is reading a bunch of files and writing to stdout.
 
 So that's why I'll keep working on this framework.
