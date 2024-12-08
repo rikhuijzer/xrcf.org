@@ -4,13 +4,5 @@
 {% block content %}
     <h1>{{page.title}}</h1>
 
-    <div style="padding-top: 20px; padding-bottom: 20px; font-weight: 700;">
-        This is a blog post about the eXtensible Reusable Compiler Framework (xrcf).
-        I've always wanted to write a compiler, but found the task daunting.
-        I didn't know how to handle all the details such as lexing, parsing, type checking, and error handling.
-        That's why I'm building xrcf.
-        This projects handles the details so you can focus on building your own compiler.
-    </div>
-
     {{page.content | safe}}
 {% endblock content %}
