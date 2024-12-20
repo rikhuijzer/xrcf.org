@@ -56,5 +56,8 @@ The third performance argument is that iterators are lazy.
 So while you can also decide to make a loop lazy by pre-emptively breaking out of it, iterators are a bit more convenient.
 
 But today a reason hit me that I think are not often mentioned.
+Iterators are a workaround for when Rust frees variables too early.
+Let me show an example.
+
 
 
