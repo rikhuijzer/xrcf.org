@@ -4,6 +4,15 @@ date = 2024-12-02
 description = "As an example of how to use xrcf to write a compiler, there is now a basic ArnoldC compiler in the repository."
 +++
 
+<div class="background-info">
+This is a blog post about the eXtensible Reusable Compiler Framework (xrcf).
+I've always wanted to write a compiler, but found the task daunting.
+I didn't know how to handle all the details such as lexing, parsing, type checking, and error handling.
+That's why I'm building xrcf.
+This projects handles the details so you can focus on building your own compiler.
+</div>
+
+
 Since the release of version 0.4, there is now a basic ArnoldC compiler in the repository.
 This ArnoldC compiler is a test case for the compiler framework.
 If the framework can handle this language well, then it will be useful for other languages too.
