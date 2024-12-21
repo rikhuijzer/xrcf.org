@@ -5,11 +5,16 @@ title = "Home"
 <div class="hero">
     <div style="margin-left: auto; margin-right: auto; text-align: center; max-width: 55ch;">
         <h1 class="project-name emphasize" style="font-size: 6vh; margin-bottom: 0px;">xrcf</h1>
-        <p style="font-size: 2vh; margin-top: 0px;">eXtensible and Reusable Compiler Framework</p>
-        <p style="margin-top: 8vh; font-size: 2.5vh; line-height: 150%;">
+        <p style="margin-top: 8vh; line-height: 150%;">
             A <span class="emphasize">modern</span> infrastructure for building compilers
         </p>
     </div>
+</div>
+
+<div class="center subhero">
+    Building compilers doesn't have to be rocket science.
+    xrcf is an open-source library that aims to be easy to build and easy to understand.
+    Thanks to Rust, the library does this while remaining performant, reliable, and productive.
 </div>
 
 <div id="status" style="text-align: center;">
