@@ -1,5 +1,5 @@
 +++
-title = "Why Is Building a Compiler So Hard?"
+title = "Why is Building a Compiler so Hard?"
 date = 2024-12-21
 description = "Thoughts on why writing a compiler is surprisingly difficult."
 +++
