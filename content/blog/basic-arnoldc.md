@@ -5,11 +5,13 @@ description = "As an example of how to use xrcf to write a compiler, there is no
 +++
 
 <div class="background-info">
+
 This is a blog post about the eXtensible Reusable Compiler Framework (xrcf).
 I've always wanted to write a compiler, but found the task daunting.
 I didn't know how to handle all the details such as lexing, parsing, type checking, and error handling.
 That's why I'm building xrcf.
 This projects handles the details so you can focus on building your own compiler.
+
 </div>
 
 
