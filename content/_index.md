@@ -13,8 +13,7 @@ title = "Home"
 
 <div class="center subhero">
     Building compilers doesn't have to be rocket science.
-    xrcf is an open-source library that aims to be easy to build and easy to understand.
-    Thanks to Rust, the library does this while remaining performant, reliable, and productive.
+    This open-source library aims to be easy to build and easy to understand while, thanks to Rust, remaining performant, reliable, and productive.
 </div>
 
 <div id="status" style="text-align: center;">
