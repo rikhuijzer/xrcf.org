@@ -4,12 +4,15 @@ title = "Home"
 
 <div class="hero">
     <div style="margin-left: auto; margin-right: auto; text-align: center; max-width: 55ch;">
-        <h1 class="project-name" style="font-size: 6vh; margin-bottom: 0px;">xrcf</h1>
-        <p style="font-size: 2vh; margin-top: 0px;">eXtensible and Reusable Compiler Framework</p>
-        <p style="margin-top: 8vh; font-size: 2.5vh; line-height: 150%;">
-            A compiler framework for building your own compiler that can generate code for CPUs, GPUs, TPUs, and beyond.
+        <p style="margin-top: 8vh; line-height: 150%;">
+            A <span class="emphasize">modern</span> infrastructure for building compilers
         </p>
     </div>
+</div>
+
+<div class="center subhero">
+    Building compilers doesn't have to be rocket science.
+    This open-source library aims to be easy to build and easy to understand while, thanks to Rust, remaining performant, reliable, and productive.
 </div>
 
 <div id="status" style="text-align: center;">
@@ -18,7 +21,7 @@ title = "Home"
 
 In the long term, the aim for xrcf is to allow building compilers that can compile any programming language to any target architecture.
 
-In the near term, the aim is to build a fully functional compiler in xrcf that can compile the ArnoldC language to an executable.
+In the near term, the aim is to use xrcf to build a fully functional compiler that can compile the ArnoldC language to an executable.
 To see the compiler in action, see the [walkthrough](/blog/basic-arnoldc).
 ArnoldC is just a test case.
 If xrcf can handle it well, then it will be useful for other compiler projects too.
@@ -34,7 +37,7 @@ Construct | MLIR | LLVM dialect | LLVM IR
 functions | ✅ | ✅ | ✅
 add | ✅ | ✅ | ✅
 print | ✅ | ✅ | ✅
-if else | | ✅ | ✅
+if else | ✅ | ✅ | ✅
 for loop | | |
 while loop | | |
 ... | | |

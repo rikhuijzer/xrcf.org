@@ -1,4 +1,6 @@
 :root {
+    --dark-blue: hsl(214, 93%, 42%);
+    --light-blue: hsl(214, 93%, 78%);
     --blue: hsl(214, 93%, 62%);
     --light-gray: #f2f2f2;
     --gray: #808080;
@@ -11,10 +13,12 @@
     --code-background: hsl(230, 60%, 98%);
     --code-border: #dbdbdb;
     --border: #eaeaea;
+    --blue-gradient: linear-gradient(to right, var(--dark-blue), var(--blue));
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
+        --blue-gradient: linear-gradient(to right, var(--blue), var(--light-blue));
         --background: hsl(0, 0%, 20%);
         --border: #4e4e4e;
         --code-background: hsl(0, 0%, 5%);
@@ -114,27 +118,31 @@ code {
     margin-top: 40px;
 }
 
-.page-title {
-    margin-bottom: 10px;
-    line-height: 120%;
-}
-
 .page-date {
     font-size: 14px;
     margin-bottom: 40px;
 }
 
-.hero {
-    display: flex;
-    min-height: 65vh;
-    align-items: center;
-    margin-top: 100px;
-    text-align: center;
+.center {
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.project-name {
-    font-weight: 800;
-    color: var(--xrcf-black) !important;
+.hero {
+    align-items: center;
+    margin-top: 70px;
+    margin-bottom: 70px;
+    text-align: center;
+    font-size: 3.7vh;
+}
+
+.subhero {
+  font-size: 2.7vh;
+  padding-bottom: 60px;
+  line-height: 1.2em;
+  margin-bottom: 70px;
+  text-align: center;
+  max-width: 45ch;
 }
 
 .left {
@@ -214,6 +222,7 @@ input:checked ~ .right {
     .menu-title {
         padding-top: 8px;
         padding-left: 20px;
+        font-weight: 800;
     }
 
     .menu-content {
@@ -250,7 +259,6 @@ input:checked ~ .right {
      padding-top: 7px;
      padding-bottom: 10px;
   }
-  
   .menu-svg li {
     position: absolute;
     top: 10px;
@@ -343,4 +351,10 @@ table tbody tr td {
     padding-top: 20px;
     padding-bottom: 20px;
     font-weight: 700;
+}
+
+.emphasize {
+  background: var(--blue-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
