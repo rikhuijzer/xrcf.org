@@ -1,4 +1,5 @@
 :root {
+    --dark-blue: hsl(214, 93%, 42%);
     --light-blue: hsl(214, 93%, 78%);
     --blue: hsl(214, 93%, 62%);
     --light-gray: #f2f2f2;
@@ -12,10 +13,12 @@
     --code-background: hsl(230, 60%, 98%);
     --code-border: #dbdbdb;
     --border: #eaeaea;
+    --blue-gradient: linear-gradient(to right, var(--dark-blue), var(--blue));
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
+        --blue-gradient: linear-gradient(to right, var(--blue), var(--light-blue));
         --background: hsl(0, 0%, 20%);
         --border: #4e4e4e;
         --code-background: hsl(0, 0%, 5%);
@@ -354,7 +357,7 @@ table tbody tr td {
 }
 
 .emphasize {
-  background: linear-gradient(to right, var(--blue), var(--light-blue));
+  background: var(--blue-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
