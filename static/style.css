@@ -337,3 +337,9 @@ tr, th, td {
 table tbody tr td {
  border:1px solid var(--border);
 }
+
+.emphasize {
+  background: linear-gradient(to right, white, var(--blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

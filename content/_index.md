@@ -4,10 +4,10 @@ title = "Home"
 
 <div class="hero">
     <div style="margin-left: auto; margin-right: auto; text-align: center; max-width: 55ch;">
-        <h1 class="project-name" style="font-size: 6vh; margin-bottom: 0px;">xrcf</h1>
+        <h1 class="project-name emphasize" style="font-size: 6vh; margin-bottom: 0px;">xrcf</h1>
         <p style="font-size: 2vh; margin-top: 0px;">eXtensible and Reusable Compiler Framework</p>
         <p style="margin-top: 8vh; font-size: 2.5vh; line-height: 150%;">
-            Easy(ier)-to-use infrastructure for building compilers.
+            A <span class="emphasize">modern</span> infrastructure for building compilers
         </p>
     </div>
 </div>
