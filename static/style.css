@@ -356,5 +356,28 @@ table tbody tr td {
 .emphasize {
   background: var(--blue-gradient);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.footnote-definition {
+  margin-left: 1em;
+  display: inline-block;
+}
+
+.footnote-definition-label {
+  font-size: 0.7em;
+}
+
+.footnote-definition-label::before {
+  content: "Footnote ";
+}
+
+.footnote-definition-label::after {
+  content: ":";
+  font-size: 0.7em;
+}
+
+.footnote-definition p {
+    display: inline;
 }

@@ -1,15 +1,8 @@
 +++
-title = "Why Is Writing a Compiler So Hard?"
-date = 2024-12-08
-description = "A discussion on why writing a compiler is fundamentally difficult."
+title = "Why Is Building a Compiler So Hard?"
+date = 2024-12-21
+description = "Thoughts on why writing a compiler is surprisingly difficult."
 +++
-
-<div class="background-info">
-
-I'm working on an easy(ier)-to-use compiler framework called xrcf.
-It's open source and can be found on [GitHub](https://github.com/rikhuijzer/xrcf).
-
-</div>
 
 Last year, I've spent a few months experimenting with and contributing to various compilers.
 I had great fun, but felt that the developer experience could be better.
@@ -26,9 +19,9 @@ Everything happens inside memory.
 Also, there are many great open source projects out there that I'm basing my code on.
 So it should be easy.
 
-However, when working on a new feature or bug fix, I often find myself adding a test case and then leaving the code sit for a few days to think about the problem.
+However, when working on a new feature or bug fix, I often find myself adding a test case and then having to think a few days about the problem before I feel like I have a good solution.
 Next, implementing it is often like wading through mud.
-I expect that this will become better with time because my brain will adjust, but currently it's surprisingly hard.
+I expect that this will become better with time because my brain will get used to it, but currently it's surprisingly hard.
 
 That's why I want to write down my thoughts now that I still have "fresh eyes".
 This could be useful for myself to understand where the difficulties are so that I can improve the framework.
@@ -59,13 +52,14 @@ since this would avoid one addition operation.
 But which steps would the compiler take to rewrite this code?
 Assuming that we already parsed the code into some data structure, the steps would be something like:
 
-1. For `x + y`, find the definition of `y`.
-2. Notice that `y` is a constant and thus that `y` in `x + y` can be replaced by `1`.
-3. Replace `y` with `1` in the `x + y` expression.
-4. Remove `y = 1` since it's no longer needed.
+1. Look at `x + y`.
+1. Find the definition of `y`.
+1. Notice that `y` is a constant and thus that `y` in `x + y` can be replaced by `1`.
+1. Replace `y` with in `x + y` by `1`.
+1. Remove `y = 1` if nobody else is using `y`.
 
 Now there are two places where side-effects occur.
-One is in step 1, where we need to find the definition of `y`.
+One is in step 2, where we find the definition of `y`.
 Only if `y` is a constant, we can substitute the `y` with a constant.
 Otherwise, we abort the rewrite.
 
@@ -95,7 +89,7 @@ Next, we rewrite this code to this:
 ```
 
 Now when we are in step 1 of the rewrite listed above, we need to find the definition of `y`.
-This means that we need to find the parent of `return x + y` in the data structure.
+This means that we need to find the parent of `return x + y` in the data structure since only the parent knows about the sibling `y = 1`[^1].
 Hence, we need a pointer inside the `return x + y` object that points to its parent.
 Or we need a pointer inside the `y` object that points to the definition of `y`.
 In both cases, this pointer has to be set when creating the data structure and then updated during rewriting.
@@ -242,5 +236,7 @@ If after reading this you became more interested, feel free to check out the [pr
 Contributions as well as complaints are welcome!
 
 Okay now that this is written up, time for me to go back to writing code.
-178 commits done.
-One thousand to go.
+
+[^1]: You could also decide to have each object know about its direct siblings, but then you would need to update the pointers when the siblings change.
+When printing the data structure, you anyway need to know the children because you start printing at the root and then print recursively.
+So that's why, currently, xrcf only has a pointer from the child to the parent and from the parent to the children.
