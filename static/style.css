@@ -361,6 +361,7 @@ table tbody tr td {
 }
 
 .footnote-definition {
+  margin-top: 2em;
   margin-left: 1em;
   display: inline-block;
 }

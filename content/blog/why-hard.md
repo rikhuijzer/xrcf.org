@@ -179,15 +179,14 @@ And then you are left with handling the most complex cases in imperative code, w
 Also the codebase is then a mix of declarative and imperative code.
 Maybe that's still better than having to do everything imperative.
 I'm not sure yet.
-It does appear complex, that's all I'm saying for now.
+It does appear complex, that's all I'm saying.
 
 The alternative is to write imperative code.
 For example, we could write a rewrite rule that looks like this:
 
 ```python
 def rewrite(op: Add):
-    if op.rhs.definition is not None:
-        if op.rhs.definition.op == Constant:
+    if op.rhs.definition is not None and if op.rhs.definition.op == Constant:
             new_rhs = Arith_ConstantOp(op.rhs.definition.value)
             op.rhs.replace(new_rhs)
 ```
@@ -205,9 +204,9 @@ def count_vowels(s):
   return count
 ```
 
-Although this example is longer than the rewrite above, I think it's much easier to understand.
+Although `count_vowels` is longer than the rewrite above, I think it's much easier to understand.
 I'm not sure what the reason is for this.
-Maybe it's because of the pointers such as `op.rhs.definition`, or all the non-standard data types such as `Arith_ConstantOp`?
+Maybe it's because of the pointers such as `op.rhs.definition`, all the non-standard data types such as `Arith_ConstantOp`, or because the operations (like `replace`) mutate things in the background?
 Maybe it's just because my brain is not used to it yet.
 
 ## A More Positive Note
@@ -225,8 +224,6 @@ This is in contrast to testing graphical user interfaces, where most of the test
 Another enjoyable aspect is that the problems are hard but fair.
 If the program crashes, it's probably your fault.
 You cannot blame other software, the internet provider, operating system, or the hard disk.
-No, if the compiler crashes, it's probably your fault.
-The only thing that you depend on is reading a bunch of files and writing to stdout.
 
 So that's why I'll keep working on this framework.
 It's hard, but fun.
