@@ -50,4 +50,4 @@ From there, xrcf can be used to run your code on the CPU.
     <h3>Lowering to GPU</h3>
 </center>
 
-Will be implemented soon.
+High on the priority list.
