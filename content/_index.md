@@ -5,7 +5,7 @@ title = "Home"
 <div class="hero">
     <div style="margin-left: auto; margin-right: auto; text-align: center; max-width: 55ch;">
         <p style="margin-top: 8vh; line-height: 150%;">
-            A <span class="emphasize">modern</span> infrastructure for building compilers
+            A <span class="emphasize">modern</span> library for building <span class="emphasize">production-grade</span> compilers
         </p>
     </div>
 </div>
