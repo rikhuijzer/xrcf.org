@@ -212,8 +212,8 @@ Maybe it's just because my brain is not used to it yet.
 ## Other Difficult Parts
 
 Other people have also noticed that certain parts are complex.
-A famous [post by ShipReq](http://web.archive.org/web/20210121042722/https://blog.shipreq.com/post/compilers_are_hard) observed that you need mutability for performance, which complicates things, and the (too) many combinations that are possible.
-For example, [Basile Starynkevitch on StackOverflow](https://softwareengineering.stackexchange.com/a/273711/324697) argues that the main difficulty is in implementing all the many optimizations which are necessary to make a competitive compiler.
+For example, A famous [post by ShipReq](http://web.archive.org/web/20210121042722/https://blog.shipreq.com/post/compilers_are_hard) observed that you need mutability for performance, which complicates things, and the (too) many combinations that are possible.
+Furthermore, [Basile Starynkevitch on StackOverflow](https://softwareengineering.stackexchange.com/a/273711/324697) argues that the main difficulty is in implementing all the many optimizations which are necessary to make a competitive compiler.
 Especially the middle-end optimizations (so after parsing and before going into target-specific optimizations).
 Similarly, [m-in, SeatedInAnOffice, chickyban on Reddit](https://www.reddit.com/r/Compilers/comments/1hjkb49/why_is_building_a_compiler_so_hard) say that building a compiler is not necessarily the hard part, but build a production-grade compiler for real users with a messy language spec is.
 
