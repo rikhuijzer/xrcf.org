@@ -115,9 +115,9 @@ struct Parser {
 }
 
 impl Parser {
-    fn new(tokens: Vec<Token>) -> Self {
+    fn new(tokens: &[Token]) -> Self {
         Self {
-            tokens,
+            tokens: tokens.to_vec(),
             position: 0,
         }
     }
@@ -188,7 +188,7 @@ impl Parser {
             }
         }
     }
-    fn parse(tokens: Vec<Token>) -> Result<Expr, String> {
+    fn parse(tokens: &[Token]) -> Result<Expr, String> {
         let mut parser = Parser::new(tokens);
         let expr = parser.parse_expr_outer(None)?;
         if parser.position != parser.tokens.len() {
@@ -206,8 +206,8 @@ mod test_parser {
     #[test]
     fn test_multiply_precedence_over_add() {
         assert_eq!(
-            Parser::parse(vec![Number, Add, Number, Multiply, Number]),
-            Parser::parse(vec![
+            Parser::parse(&vec![Number, Add, Number, Multiply, Number]),
+            Parser::parse(&vec![
                 Number, Add, OpenParen, Number, Multiply, Number, CloseParen
             ])
         );
@@ -215,7 +215,7 @@ mod test_parser {
     #[test]
     fn test_parens_override_precedence() {
         assert_eq!(
-            Parser::parse(vec![
+            Parser::parse(&vec![
                 OpenParen, Number, Add, Number, CloseParen, Multiply, Number
             ]),
             Ok(Expr::BinaryOp(BinaryOp {
@@ -232,19 +232,19 @@ mod test_parser {
     #[test]
     fn test_ambiguous_precedence_against_bitwise_or() {
         assert_eq!(
-            Parser::parse(vec![Number, Add, Number, BitwiseOr, Number]),
+            Parser::parse(&vec![Number, Add, Number, BitwiseOr, Number]),
             Err("Ambiguous operator precedence".to_string())
         );
         assert_eq!(
-            Parser::parse(vec![Number, Multiply, Number, BitwiseOr, Number]),
+            Parser::parse(&vec![Number, Multiply, Number, BitwiseOr, Number]),
             Err("Ambiguous operator precedence".to_string())
         );
     }
     #[test]
     fn test_left_associative() {
         assert_eq!(
-            Parser::parse(vec![Number, Add, Number, Add, Number]),
-            Parser::parse(vec![
+            Parser::parse(&vec![Number, Add, Number, Add, Number]),
+            Parser::parse(&vec![
                 OpenParen, Number, Add, Number, CloseParen, Add, Number
             ])
         );
@@ -252,8 +252,8 @@ mod test_parser {
     #[test]
     fn test_right_associative() {
         assert_eq!(
-            Parser::parse(vec![Number, BitwiseOr, Number, BitwiseOr, Number]),
-            Parser::parse(vec![
+            Parser::parse(&vec![Number, BitwiseOr, Number, BitwiseOr, Number]),
+            Parser::parse(&vec![
                 Number, BitwiseOr, OpenParen, Number, BitwiseOr, Number, CloseParen
             ])
         );
