@@ -102,9 +102,7 @@ impl PartialEq for Expr {
     fn eq(&self, other: &Self) -> bool {
         match (self, other) {
             (Expr::Number, Expr::Number) => true,
-            (Expr::BinaryOp(a), Expr::BinaryOp(b)) => {
-                a == b
-            },
+            (Expr::BinaryOp(a), Expr::BinaryOp(b)) => a == b,
             _ => false,
         }
     }
@@ -136,7 +134,7 @@ impl Parser {
         match token {
             Token::Number => {
                 return Ok(Expr::Number);
-            },
+            }
             Token::OpenParen => {
                 let expr = self.parse_expr_outer(None)?;
                 let token = self.next_token().expect("Expected close paren");
@@ -144,10 +142,10 @@ impl Parser {
                     return Err("Expected close paren".to_string());
                 }
                 return Ok(expr);
-            },
+            }
             _ => {
                 return Err(format!("Expected number or open paren, got {:?}", token));
-            },
+            }
         }
     }
     fn parse_expr_outer(&mut self, prev_op_o: Option<Operator>) -> Result<Expr, String> {
@@ -176,7 +174,7 @@ impl Parser {
                 Precedence::LeftBindsTighter => {
                     self.position = start;
                     return Ok(left);
-                },
+                }
                 Precedence::RightBindsTighter => {
                     let right = self.parse_expr_outer(Some(op.clone()))?;
                     let new_left = Expr::BinaryOp(BinaryOp {
@@ -185,7 +183,7 @@ impl Parser {
                         right: Box::new(right),
                     });
                     left = new_left;
-                },
+                }
                 Precedence::Ambiguous => return Err("Ambiguous operator precedence".to_string()),
             }
         }
@@ -197,5 +195,56 @@ impl Parser {
             return Err("Expected end of expression".to_string());
         };
         Ok(expr)
+    }
+}
+
+#[cfg(test)]
+mod test_parser {
+    use super::*;
+
+    #[test]
+    fn test_multiply_precedence_over_add() {
+        assert_eq!(
+            Parser::parse(vec![
+                Token::Number,
+                Token::Add,
+                Token::Number,
+                Token::Multiply,
+                Token::Number
+            ]),
+            Parser::parse(vec![
+                Token::Number,
+                Token::Add,
+                Token::OpenParen,
+                Token::Number,
+                Token::Multiply,
+                Token::Number,
+                Token::CloseParen
+            ])
+        );
+    }
+
+    #[test]
+    fn test_parens_override_precedence() {
+        assert_eq!(
+            Parser::parse(vec![
+                Token::OpenParen,
+                Token::Number,
+                Token::Add,
+                Token::Number,
+                Token::CloseParen,
+                Token::Multiply,
+                Token::Number
+            ]),
+            Ok(Expr::BinaryOp(BinaryOp {
+                op: Operator::Multiply,
+                left: Box::new(Expr::BinaryOp(BinaryOp {
+                    op: Operator::Add,
+                    left: Box::new(Expr::Number),
+                    right: Box::new(Expr::Number),
+                })),
+                right: Box::new(Expr::Number),
+            }))
+        );
     }
 }
