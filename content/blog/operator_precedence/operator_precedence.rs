@@ -15,22 +15,24 @@ enum Precedence {
     Ambiguous,
 }
 
+use Precedence::*;
+
 fn compare_precedence(left: &Operator, right: &Operator) -> Precedence {
     match left {
         Operator::Add => match right {
-            Operator::Add => return Precedence::LeftBindsTighter,
-            Operator::Multiply => return Precedence::RightBindsTighter,
-            Operator::BitwiseOr => return Precedence::Ambiguous,
+            Operator::Add => return LeftBindsTighter,
+            Operator::Multiply => return RightBindsTighter,
+            Operator::BitwiseOr => return Ambiguous,
         },
         Operator::Multiply => match right {
-            Operator::Add => return Precedence::LeftBindsTighter,
-            Operator::Multiply => return Precedence::LeftBindsTighter,
-            Operator::BitwiseOr => return Precedence::Ambiguous,
+            Operator::Add => return LeftBindsTighter,
+            Operator::Multiply => return LeftBindsTighter,
+            Operator::BitwiseOr => return Ambiguous,
         },
         Operator::BitwiseOr => match right {
-            Operator::Add => return Precedence::Ambiguous,
-            Operator::Multiply => return Precedence::Ambiguous,
-            Operator::BitwiseOr => return Precedence::RightBindsTighter,
+            Operator::Add => return Ambiguous,
+            Operator::Multiply => return Ambiguous,
+            Operator::BitwiseOr => return RightBindsTighter,
         },
     }
 }
@@ -48,14 +50,14 @@ mod test_precedence {
                 let ab = compare_precedence(&a, &b);
                 let ba = compare_precedence(&b, &a);
 
-                if ab == Precedence::Ambiguous {
-                    assert_eq!(ba, Precedence::Ambiguous);
+                if ab == Ambiguous {
+                    assert_eq!(ba, Ambiguous);
                 }
-                if a != b && ab == Precedence::LeftBindsTighter {
-                    assert_eq!(ba, Precedence::RightBindsTighter);
+                if a != b && ab == LeftBindsTighter {
+                    assert_eq!(ba, RightBindsTighter);
                 }
-                if a != b && ab == Precedence::RightBindsTighter {
-                    assert_eq!(ba, Precedence::LeftBindsTighter);
+                if a != b && ab == RightBindsTighter {
+                    assert_eq!(ba, LeftBindsTighter);
                 }
 
                 for c in ops.clone() {
@@ -63,11 +65,11 @@ mod test_precedence {
                     let ac = compare_precedence(&a, &c);
 
                     // transitive
-                    if ab == Precedence::LeftBindsTighter && bc == Precedence::LeftBindsTighter {
-                        assert_eq!(ac, Precedence::LeftBindsTighter);
+                    if ab == LeftBindsTighter && bc == LeftBindsTighter {
+                        assert_eq!(ac, LeftBindsTighter);
                     }
-                    if ab == Precedence::RightBindsTighter && bc == Precedence::RightBindsTighter {
-                        assert_eq!(ac, Precedence::RightBindsTighter);
+                    if ab == RightBindsTighter && bc == RightBindsTighter {
+                        assert_eq!(ac, RightBindsTighter);
                     }
                 }
             }
@@ -168,14 +170,14 @@ impl Parser {
             let precedence = if let Some(ref prev_op) = prev_op_o {
                 compare_precedence(&prev_op, &op)
             } else {
-                Precedence::RightBindsTighter
+                RightBindsTighter
             };
             match precedence {
-                Precedence::LeftBindsTighter => {
+                LeftBindsTighter => {
                     self.position = start;
                     return Ok(left);
                 }
-                Precedence::RightBindsTighter => {
+                RightBindsTighter => {
                     let right = self.parse_expr_outer(Some(op.clone()))?;
                     let new_left = Expr::BinaryOp(BinaryOp {
                         op,
@@ -184,7 +186,7 @@ impl Parser {
                     });
                     left = new_left;
                 }
-                Precedence::Ambiguous => return Err("Ambiguous operator precedence".to_string()),
+                Ambiguous => return Err("Ambiguous operator precedence".to_string()),
             }
         }
     }
@@ -223,7 +225,6 @@ mod test_parser {
             ])
         );
     }
-
     #[test]
     fn test_parens_override_precedence() {
         assert_eq!(
@@ -245,6 +246,71 @@ mod test_parser {
                 })),
                 right: Box::new(Expr::Number),
             }))
+        );
+    }
+    #[test]
+    fn test_ambiguous_precedence_against_bitwise_or() {
+        assert_eq!(
+            Parser::parse(vec![
+                Token::Number,
+                Token::Add,
+                Token::Number,
+                Token::BitwiseOr,
+                Token::Number
+            ]),
+            Err("Ambiguous operator precedence".to_string())
+        );
+        assert_eq!(
+            Parser::parse(vec![
+                Token::Number,
+                Token::Multiply,
+                Token::Number,
+                Token::BitwiseOr,
+                Token::Number
+            ]),
+            Err("Ambiguous operator precedence".to_string())
+        );
+    }
+    #[test]
+    fn test_left_associative() {
+        assert_eq!(
+            Parser::parse(vec![
+                Token::Number,
+                Token::Add,
+                Token::Number,
+                Token::Add,
+                Token::Number
+            ]),
+            Parser::parse(vec![
+                Token::OpenParen,
+                Token::Number,
+                Token::Add,
+                Token::Number,
+                Token::CloseParen,
+                Token::Add,
+                Token::Number
+            ])
+        );
+    }
+    #[test]
+    fn test_right_associative() {
+        assert_eq!(
+            Parser::parse(vec![
+                Token::Number,
+                Token::BitwiseOr,
+                Token::Number,
+                Token::BitwiseOr,
+                Token::Number
+            ]),
+            Parser::parse(vec![
+                Token::Number,
+                Token::BitwiseOr,
+                Token::OpenParen,
+                Token::Number,
+                Token::BitwiseOr,
+                Token::Number,
+                Token::CloseParen
+            ])
         );
     }
 }
