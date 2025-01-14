@@ -4,7 +4,7 @@ date = 2025-01-14
 description = "A Rust rewrite of Jamie Bandon's Pratt parser with operator comparisons"
 +++
 
-Jamie Brandon wrote [an example parser](https://www.scattered-thoughts.net/writing/better-operator-precedence/) that fixes some problems that Pratt parsers have (see [matklad](https://matklad.github.io/2020/04/13/simple-but-powerful-pratt-parsing) for a very nice writeup).
+Jamie Brandon wrote [an example parser](https://www.scattered-thoughts.net/writing/better-operator-precedence/) that fixes some problems that Pratt parsers have (see also [matklad](https://matklad.github.io/2020/04/13/simple-but-powerful-pratt-parsing) for a very nice writeup on Pratt parsers).
 The idea in Jamie's version is to compare operators directly.
 
 The example by Jamie was written in Zig.
