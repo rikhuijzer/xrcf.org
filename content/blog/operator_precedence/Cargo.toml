@@ -1,0 +1,12 @@
+[package]
+name = "operator_precedence"
+version = "0.1.0"
+edition = "2021"
+
+[[test]]
+name = "my_test"
+path = "operator_precedence.rs"
+
+[dependencies]
+strum = "0.26.3"
+strum_macros = "0.26.4"
