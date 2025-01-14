@@ -110,14 +110,20 @@ impl PartialEq for Expr {
     }
 }
 
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 struct Parser {
     tokens: Vec<Token>,
     position: usize,
 }
 
 impl Parser {
-    fn nextToken(&mut self) -> Option<Token> {
+    fn new(tokens: Vec<Token>) -> Self {
+        Self {
+            tokens,
+            position: 0,
+        }
+    }
+    fn next_token(&mut self) -> Option<Token> {
         if self.position >= self.tokens.len() {
             return None;
         }
@@ -126,14 +132,14 @@ impl Parser {
         Some(token)
     }
     fn parse_expr_inner(&mut self) -> Result<Expr, String> {
-        let token = self.nextToken().expect("Expected start of expression");
+        let token = self.next_token().expect("Expected start of expression");
         match token {
             Token::Number => {
                 return Ok(Expr::Number);
             },
             Token::OpenParen => {
-                let expr = self.parse_expr_outer()?;
-                let token = self.nextToken().expect("Expected close paren");
+                let expr = self.parse_expr_outer(None)?;
+                let token = self.next_token().expect("Expected close paren");
                 if token != Token::CloseParen {
                     return Err("Expected close paren".to_string());
                 }
@@ -145,10 +151,10 @@ impl Parser {
         }
     }
     fn parse_expr_outer(&mut self, prev_op_o: Option<Operator>) -> Result<Expr, String> {
-        let left = self.parse_expr_inner()?;
+        let mut left = self.parse_expr_inner()?;
         loop {
             let start = self.position;
-            let token = match self.nextToken() {
+            let token = match self.next_token() {
                 Some(token) => token,
                 None => return Ok(left),
             };
@@ -166,6 +172,30 @@ impl Parser {
             } else {
                 Precedence::RightBindsTighter
             };
+            match precedence {
+                Precedence::LeftBindsTighter => {
+                    self.position = start;
+                    return Ok(left);
+                },
+                Precedence::RightBindsTighter => {
+                    let right = self.parse_expr_outer(Some(op.clone()))?;
+                    let new_left = Expr::BinaryOp(BinaryOp {
+                        op,
+                        left: Box::new(left),
+                        right: Box::new(right),
+                    });
+                    left = new_left;
+                },
+                Precedence::Ambiguous => return Err("Ambiguous operator precedence".to_string()),
+            }
         }
+    }
+    fn parse(tokens: Vec<Token>) -> Result<Expr, String> {
+        let mut parser = Parser::new(tokens);
+        let expr = parser.parse_expr_outer(None)?;
+        if parser.position != parser.tokens.len() {
+            return Err("Expected end of expression".to_string());
+        };
+        Ok(expr)
     }
 }
