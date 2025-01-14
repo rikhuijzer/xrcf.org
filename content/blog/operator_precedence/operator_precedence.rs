@@ -74,3 +74,98 @@ mod test_precedence {
         }
     }
 }
+
+#[derive(Clone, Debug, PartialEq)]
+enum Token {
+    Number,
+    Add,
+    Multiply,
+    BitwiseOr,
+    OpenParen,
+    CloseParen,
+}
+
+#[derive(Clone, Debug, PartialEq)]
+struct BinaryOp {
+    op: Operator,
+    left: Box<Expr>,
+    right: Box<Expr>,
+}
+
+#[derive(Clone, Debug)]
+enum Expr {
+    Number,
+    BinaryOp(BinaryOp),
+}
+
+impl PartialEq for Expr {
+    fn eq(&self, other: &Self) -> bool {
+        match (self, other) {
+            (Expr::Number, Expr::Number) => true,
+            (Expr::BinaryOp(a), Expr::BinaryOp(b)) => {
+                a == b
+            },
+            _ => false,
+        }
+    }
+}
+
+#[derive(Clone, Debug, Default)]
+struct Parser {
+    tokens: Vec<Token>,
+    position: usize,
+}
+
+impl Parser {
+    fn nextToken(&mut self) -> Option<Token> {
+        if self.position >= self.tokens.len() {
+            return None;
+        }
+        let token = self.tokens[self.position].clone();
+        self.position += 1;
+        Some(token)
+    }
+    fn parse_expr_inner(&mut self) -> Result<Expr, String> {
+        let token = self.nextToken().expect("Expected start of expression");
+        match token {
+            Token::Number => {
+                return Ok(Expr::Number);
+            },
+            Token::OpenParen => {
+                let expr = self.parse_expr_outer()?;
+                let token = self.nextToken().expect("Expected close paren");
+                if token != Token::CloseParen {
+                    return Err("Expected close paren".to_string());
+                }
+                return Ok(expr);
+            },
+            _ => {
+                return Err(format!("Expected number or open paren, got {:?}", token));
+            },
+        }
+    }
+    fn parse_expr_outer(&mut self, prev_op_o: Option<Operator>) -> Result<Expr, String> {
+        let left = self.parse_expr_inner()?;
+        loop {
+            let start = self.position;
+            let token = match self.nextToken() {
+                Some(token) => token,
+                None => return Ok(left),
+            };
+            let op = match token {
+                Token::Add => Operator::Add,
+                Token::Multiply => Operator::Multiply,
+                Token::BitwiseOr => Operator::BitwiseOr,
+                _ => {
+                    self.position = start;
+                    return Ok(left);
+                }
+            };
+            let precedence = if let Some(ref prev_op) = prev_op_o {
+                compare_precedence(&prev_op, &op)
+            } else {
+                Precedence::RightBindsTighter
+            };
+        }
+    }
+}
