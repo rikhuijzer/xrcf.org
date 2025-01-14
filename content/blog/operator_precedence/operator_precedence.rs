@@ -1,14 +1,13 @@
 #![allow(dead_code)]
-use strum_macros::EnumIter;
 
-#[derive(Clone, Debug, EnumIter, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 enum Operator {
     Add,
     Multiply,
     BitwiseOr,
 }
 
-#[derive(Clone, Debug, EnumIter, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 enum Precedence {
     LeftBindsTighter,
     RightBindsTighter,
@@ -40,11 +39,10 @@ fn compare_precedence(left: &Operator, right: &Operator) -> Precedence {
 #[cfg(test)]
 mod test_precedence {
     use super::*;
-    use strum::IntoEnumIterator;
 
     #[test]
     fn test_operator_precedence() {
-        let ops = Operator::iter();
+        let ops = vec![Operator::Add, Operator::Multiply, Operator::BitwiseOr];
         for a in ops.clone() {
             for b in ops.clone() {
                 let ab = compare_precedence(&a, &b);
@@ -202,26 +200,15 @@ impl Parser {
 
 #[cfg(test)]
 mod test_parser {
+    use super::Token::*;
     use super::*;
 
     #[test]
     fn test_multiply_precedence_over_add() {
         assert_eq!(
+            Parser::parse(vec![Number, Add, Number, Multiply, Number]),
             Parser::parse(vec![
-                Token::Number,
-                Token::Add,
-                Token::Number,
-                Token::Multiply,
-                Token::Number
-            ]),
-            Parser::parse(vec![
-                Token::Number,
-                Token::Add,
-                Token::OpenParen,
-                Token::Number,
-                Token::Multiply,
-                Token::Number,
-                Token::CloseParen
+                Number, Add, OpenParen, Number, Multiply, Number, CloseParen
             ])
         );
     }
@@ -229,13 +216,7 @@ mod test_parser {
     fn test_parens_override_precedence() {
         assert_eq!(
             Parser::parse(vec![
-                Token::OpenParen,
-                Token::Number,
-                Token::Add,
-                Token::Number,
-                Token::CloseParen,
-                Token::Multiply,
-                Token::Number
+                OpenParen, Number, Add, Number, CloseParen, Multiply, Number
             ]),
             Ok(Expr::BinaryOp(BinaryOp {
                 op: Operator::Multiply,
@@ -251,65 +232,29 @@ mod test_parser {
     #[test]
     fn test_ambiguous_precedence_against_bitwise_or() {
         assert_eq!(
-            Parser::parse(vec![
-                Token::Number,
-                Token::Add,
-                Token::Number,
-                Token::BitwiseOr,
-                Token::Number
-            ]),
+            Parser::parse(vec![Number, Add, Number, BitwiseOr, Number]),
             Err("Ambiguous operator precedence".to_string())
         );
         assert_eq!(
-            Parser::parse(vec![
-                Token::Number,
-                Token::Multiply,
-                Token::Number,
-                Token::BitwiseOr,
-                Token::Number
-            ]),
+            Parser::parse(vec![Number, Multiply, Number, BitwiseOr, Number]),
             Err("Ambiguous operator precedence".to_string())
         );
     }
     #[test]
     fn test_left_associative() {
         assert_eq!(
+            Parser::parse(vec![Number, Add, Number, Add, Number]),
             Parser::parse(vec![
-                Token::Number,
-                Token::Add,
-                Token::Number,
-                Token::Add,
-                Token::Number
-            ]),
-            Parser::parse(vec![
-                Token::OpenParen,
-                Token::Number,
-                Token::Add,
-                Token::Number,
-                Token::CloseParen,
-                Token::Add,
-                Token::Number
+                OpenParen, Number, Add, Number, CloseParen, Add, Number
             ])
         );
     }
     #[test]
     fn test_right_associative() {
         assert_eq!(
+            Parser::parse(vec![Number, BitwiseOr, Number, BitwiseOr, Number]),
             Parser::parse(vec![
-                Token::Number,
-                Token::BitwiseOr,
-                Token::Number,
-                Token::BitwiseOr,
-                Token::Number
-            ]),
-            Parser::parse(vec![
-                Token::Number,
-                Token::BitwiseOr,
-                Token::OpenParen,
-                Token::Number,
-                Token::BitwiseOr,
-                Token::Number,
-                Token::CloseParen
+                Number, BitwiseOr, OpenParen, Number, BitwiseOr, Number, CloseParen
             ])
         );
     }
